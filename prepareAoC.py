@@ -5,7 +5,7 @@ import os
 import sys
 from shutil import copyfile
 
-SESSION_COOKIE = "53616c7465645f5ffe90eacec787dcaad52b7408769e4aec1c50df83e99f97854972a9cdc5fb22c74bdf84e6598a85d8"
+SESSION_COOKIE = ""
 
 def downloadPuzzle(day, year):
     url = 'https://adventofcode.com/' + str(year) + '/day/' + str(day) + '/input'
