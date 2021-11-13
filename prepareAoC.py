@@ -4,8 +4,7 @@ import argparse
 import os
 import sys
 from shutil import copyfile
-
-SESSION_COOKIE = ""
+import config
 
 def downloadPuzzle(day, year):
     url = 'https://adventofcode.com/' + str(year) + '/day/' + str(day) + '/input'
@@ -16,9 +15,9 @@ def downloadPuzzle(day, year):
 
     s = requests.session()
     # Note that domain keyword parameter is the only optional parameter here
-    cookie_obj = requests.cookies.create_cookie(name="session", value=SESSION_COOKIE)
+    cookie_obj = requests.cookies.create_cookie(name="session", value=config.SESSION_COOKIE)
     s.cookies.set_cookie(cookie_obj)
-    logger.debug(f"Session cookie set to: {SESSION_COOKIE}")
+    logger.debug(f"Session cookie set to: {config.SESSION_COOKIE}")
 
     respond = s.get(url)
 
@@ -27,6 +26,7 @@ def downloadPuzzle(day, year):
         logger.info("File successfully downloaded")
     else:
         logger.warning(f"Error: Download failed. Respond status code: {respond.status_code}")
+        logger.warning(f"Is the session cookie set corretly in the config file?")
         sys.exit()
 
 def setupLoggger():
