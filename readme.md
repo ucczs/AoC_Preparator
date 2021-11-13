@@ -14,10 +14,22 @@ The script also generates a **folder structure** based on the selected year and 
     root/  
     └── AoC_[Year]  
         └── [Day]_[Language]  
-             ├── [Day]_1  
+             ├── [Day]_01  
              |      ├── input.txt  
              |      └── 10_01.[Language]  
-             └── [Day]_2  
+             └── [Day]_02  
                     ├── input.txt  
                     └── 10_02.[Language]  
+```
+  Example:
+```bash
+    root/  
+    └── AoC_2019   
+        └── 10_c  
+             ├── 10_01  
+             |      ├── input.txt  
+             |      └── 10_01.c  
+             └── 10_02  
+                    ├── input.txt  
+                    └── 10_02.c  
 ```
