@@ -49,6 +49,7 @@ def getArguments():
     parser.add_argument('-y', action='store', type=int, required=True, help='select the year')
     parser.add_argument('-d', action='store', type=int, required=True, help='select the day')
     parser.add_argument('-l', action='store', type=str, required=True, choices=list(languageTemplates.keys()), help=f'select the language which you use to solve the puzzle. Available selections: {languageTemplates.keys()}')
+    parser.add_argument('-c', action='store', type=str, required=False, help='set your personal session cookie for adventofcode.com')
     args = parser.parse_args()
     return args
 
@@ -101,8 +102,11 @@ def createCodeTemplateFiles(language, sourceCodeFilename):
 if __name__ == "__main__":
     setupLoggger()
     args = getArguments()
-    downloadPuzzle(args.d, args.y)
-    dir1, dir2 = createDirectories(args.d, args.y, args.l)
+    if(args.c is not None):
+        config.SESSION_COOKIE = args.c
 
+    downloadPuzzle(args.d, args.y)
+
+    dir1, dir2 = createDirectories(args.d, args.y, args.l)
     createCodeTemplateFiles(args.l, dir1 + f"\\{args.d}_01.{args.l}")
     createCodeTemplateFiles(args.l, dir2 + f"\\{args.d}_02.{args.l}")
