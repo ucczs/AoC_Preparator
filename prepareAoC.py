@@ -50,16 +50,34 @@ def getArguments():
     args = parser.parse_args()
     return args
 
+def checkAndCreateDir(path):
+    if(not os.path.exists(path)):
+        os.makedirs(path)
+        logger.info(f"Directory created: {path} ")
+    else:
+        logger.warning(f"Directory already exists: {path} ")
+
+def checkAndCopyFile(sourceFile, destinationFile):
+    if os.path.exists(destinationFile):
+        os.remove(destinationFile)
+        logger.warning(f"input.txt file alread existed. Replaced with the latest file.")
+
+    copyfile(sourceFile, destinationFile)
+    logger.info(f"input.txt saved at: {destinationFile}")
+
 def createDirectories(day, year, language):
     cwd = os.getcwd()
+
     dayZeroPadding = f"{day:02d}"
     path1 = f"{cwd}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_01"
     path2 = f"{cwd}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_02"
-    os.makedirs(path1)
-    os.makedirs(path2)
 
-    copyfile(cwd + f"\\input.txt", path1 + f"\\input.txt")
-    os.rename(cwd + f"\\input.txt", path2 + f"\\input.txt")
+    checkAndCreateDir(path1)
+    checkAndCreateDir(path2)
+
+    checkAndCopyFile(cwd + f"\\input.txt", path1 + f"\\input.txt")
+    checkAndCopyFile(cwd + f"\\input.txt", path2 + f"\\input.txt")
+    os.remove(cwd + f"\\input.txt")
 
 if __name__ == "__main__":
     setupLoggger()
