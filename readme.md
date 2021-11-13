@@ -9,6 +9,7 @@ The user needs to set their session cookie in the script so that the puzzles can
 * -a download all days of a specific year
 * -l select the language you want to use
 * -c (optional) set your session cookie (the session cookie can also be set in [config.py](./config.py))
+* -p (optional) path to the output directory
 * -h help
 
 ## Folder structure
