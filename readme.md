@@ -7,7 +7,7 @@ The user needs to set their session cookie in the script so that the puzzles can
 * -y select the year (2015 until now)
 * -d select the day (Day 1 until 25)
 * -l select the language you want to use
-* -c (optional) set your session cookie (the session cookie can also be set in [config.py](./config.py)
+* -c (optional) set your session cookie (the session cookie can also be set in [config.py](./config.py))
 * -h help
 
 ## Folder structure
