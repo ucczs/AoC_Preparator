@@ -8,7 +8,7 @@ import config
 from codeTemplates import languageTemplates
 from codeTemplates import filenameReplaceTag
 
-def downloadPuzzle(day, year):
+def downloadPuzzle(day, year, dir):
     url = 'https://adventofcode.com/' + str(year) + '/day/' + str(day) + '/input'
 
     logger.info(f'Day {day}')
@@ -24,7 +24,7 @@ def downloadPuzzle(day, year):
     respond = s.get(url)
 
     if respond.status_code == 200:
-        open(config.inputFileName, "wb").write(respond.content)
+        open(dir + "\\" + config.inputFileName, "wb").write(respond.content)
         logger.info("File successfully downloaded")
     else:
         logger.warning(f"Error: Download failed. Respond status code: {respond.status_code}")
@@ -46,13 +46,14 @@ def setupLoggger():
 
 def getArguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-y', action='store', type=int, required=True, help='select the year')
-    parser.add_argument('-l', action='store', type=str, required=True, choices=list(languageTemplates.keys()), help=f'select the language which you use to solve the puzzle. Available selections: {languageTemplates.keys()}')
-    parser.add_argument('-c', action='store', type=str, required=False, help='set your personal session cookie for adventofcode.com')
+    parser.add_argument('-y', '--year', action='store', type=int, required=True, help='select the year')
+    parser.add_argument('-l', '--lang', action='store', type=str, required=True, choices=list(languageTemplates.keys()), help=f'select the language which you use to solve the puzzle. Available selections: {languageTemplates.keys()}')
+    parser.add_argument('-c', '--cookie', action='store', type=str, required=False, help='set your personal session cookie for adventofcode.com')
+    parser.add_argument('-p', '--path', action='store', type=str, required=False, help='directory where the folders and files should be created (default: current directory)')
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-d', action='store', type=int, help='select the day')
-    group.add_argument('-a', action='store_true', help='download all days')
+    group.add_argument('-d',  '--day',action='store', type=int, help='select the day')
+    group.add_argument('-a', '--all', action='store_true', help='download all days')
 
     args = parser.parse_args()
     return args
@@ -72,12 +73,10 @@ def checkAndCopyFile(sourceFile, destinationFile):
     copyfile(sourceFile, destinationFile)
     logger.info(f"{config.inputFileName} saved at: {destinationFile}")
 
-def createDirectories(day, year, language):
-    cwd = os.getcwd()
-
+def createDirectories(day, year, language, createDirectories):
     dayZeroPadding = f"{day:02d}"
-    path1 = f"{cwd}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_01"
-    path2 = f"{cwd}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_02"
+    path1 = f"{createDirectories}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_01"
+    path2 = f"{createDirectories}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_02"
 
     checkAndCreateDir(path1)
     checkAndCreateDir(path2)
@@ -85,9 +84,9 @@ def createDirectories(day, year, language):
     inputFile1 = path1 + f"\\" + config.inputFileName
     inputFile2 = path2 + f"\\" + config.inputFileName
 
-    checkAndCopyFile(cwd + f"\\" + config.inputFileName, inputFile1)
-    checkAndCopyFile(cwd + f"\\" + config.inputFileName, inputFile2)
-    os.remove(cwd + f"\\" + config.inputFileName)
+    checkAndCopyFile(createDirectories + f"\\" + config.inputFileName, inputFile1)
+    checkAndCopyFile(createDirectories + f"\\" + config.inputFileName, inputFile2)
+    os.remove(createDirectories + f"\\" + config.inputFileName)
 
     return (path1, path2)
 
@@ -102,25 +101,33 @@ def createCodeTemplateFiles(language, sourceCodeFilename):
     else:
         logger.error(f"Wrong language selected. Available languages: {languageTemplates.keys()}")
 
-def prepareDay(day, year, language):
-    downloadPuzzle(day, args.y)
+def prepareDay(day, year, language, creationDirectory):
+    downloadPuzzle(day, year, creationDirectory)
 
     dayZeroPadding = f"{day:02d}"
 
-    dir1, dir2 = createDirectories(day, year, language)
-    createCodeTemplateFiles(args.l, dir1 + f"\\{dayZeroPadding}_01.{language}")
-    createCodeTemplateFiles(args.l, dir2 + f"\\{dayZeroPadding}_02.{language}")
+    dir1, dir2 = createDirectories(day, year, language, creationDirectory)
+    createCodeTemplateFiles(language, dir1 + f"\\{dayZeroPadding}_01.{language}")
+    createCodeTemplateFiles(language, dir2 + f"\\{dayZeroPadding}_02.{language}")
 
 
 if __name__ == "__main__":
     setupLoggger()
     args = getArguments()
-    if(args.c is not None):
-        config.SESSION_COOKIE = args.c
 
-    if(args.a):
-        for i in range(1,26):
-            prepareDay(i, args.y, args.l)
+    if(args.cookie is not None):
+        config.SESSION_COOKIE = args.cookie
+
+    if(args.path is None):
+        creationDirectory = os.getcwd()
     else:
-        prepareDay(args.d, args.y, args.l)
+        creationDirectory = args.path
+        if(not os.path.exists(creationDirectory)):
+            os.makedirs(creationDirectory)
+
+    if(args.all):
+        for i in range(1,26):
+            prepareDay(i, args.year, args.lang, creationDirectory)
+    else:
+        prepareDay(args.day, args.year, args.lang, creationDirectory)
 
