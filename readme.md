@@ -1,4 +1,4 @@
-# Advent of code Preparator 🎄 🎅
+# Advent of code preparator 🎄 🎅
 
 This scripts makes it possible to download a puzzle of a specific day and year of the Advent of Code challenges.  
 The user needs to set their session cookie in the script so that the puzzles can be accessed.
@@ -7,7 +7,7 @@ The user needs to set their session cookie in the script so that the puzzles can
 * -y select the year (2015 until now)
 * -d select the day (Day 1 until 25)
 * -a download all days of a specific year
-* -l select the language you want to use
+* -l select the programming language you want to use
 * -c (optional) set your session cookie (the session cookie can also be set in [config.py](./config.py))
 * -p (optional) path to the output directory
 * -h help
