@@ -21,7 +21,7 @@ The script also generates a **folder structure** based on the selected year and 
                     ├── input.txt  
                     └── 10_02.[Language]  
 ```
-  Example:
+  Example: `python prepareAoC.py -y 2019 -d 10 -l c`
 ```bash
     root/  
     └── AoC_2019   
