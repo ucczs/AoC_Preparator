@@ -12,13 +12,12 @@ The script also generates a **folder structure** based on the selected year and 
 * The generated folders and files have the following structure:
 ```bash
     root/  
-    └── AoC_\[Year\]/  
-        └── \[Day\]_\[Language\]  
-             ├── \[Day\]_1  
+    └── AoC_[Year]  
+        └── [Day]_[Language]  
+             ├── [Day]_1  
              |      ├── input.txt  
-             |      └── 10_01.\[Language\]  
-             └── \[Day\]_2  
+             |      └── 10_01.[Language]  
+             └── [Day]_2  
                     ├── input.txt  
-                    └── 10_02.\[Language\]  
-
+                    └── 10_02.[Language]  
 ```
