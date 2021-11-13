@@ -47,9 +47,13 @@ def setupLoggger():
 def getArguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('-y', action='store', type=int, required=True, help='select the year')
-    parser.add_argument('-d', action='store', type=int, required=True, help='select the day')
     parser.add_argument('-l', action='store', type=str, required=True, choices=list(languageTemplates.keys()), help=f'select the language which you use to solve the puzzle. Available selections: {languageTemplates.keys()}')
     parser.add_argument('-c', action='store', type=str, required=False, help='set your personal session cookie for adventofcode.com')
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-d', action='store', type=int, help='select the day')
+    group.add_argument('-a', action='store_true', help='download all days')
+
     args = parser.parse_args()
     return args
 
@@ -91,7 +95,6 @@ def createCodeTemplateFiles(language, sourceCodeFilename):
     if(language in languageTemplates.keys()):
         codeTemplate = languageTemplates[language]
         codeTemplate = codeTemplate.replace(filenameReplaceTag, ".\\\\" + config.inputFileName.replace("\\", "\\\\"))
-        logger.debug(codeTemplate)
 
         open(sourceCodeFilename, "w").write(codeTemplate)
         logger.info(f"Source code file successfully written: {sourceCodeFilename}")
@@ -99,14 +102,25 @@ def createCodeTemplateFiles(language, sourceCodeFilename):
     else:
         logger.error(f"Wrong language selected. Available languages: {languageTemplates.keys()}")
 
+def prepareDay(day, year, language):
+    downloadPuzzle(day, args.y)
+
+    dayZeroPadding = f"{day:02d}"
+
+    dir1, dir2 = createDirectories(day, year, language)
+    createCodeTemplateFiles(args.l, dir1 + f"\\{dayZeroPadding}_01.{language}")
+    createCodeTemplateFiles(args.l, dir2 + f"\\{dayZeroPadding}_02.{language}")
+
+
 if __name__ == "__main__":
     setupLoggger()
     args = getArguments()
     if(args.c is not None):
         config.SESSION_COOKIE = args.c
 
-    downloadPuzzle(args.d, args.y)
+    if(args.a):
+        for i in range(1,26):
+            prepareDay(i, args.y, args.l)
+    else:
+        prepareDay(args.d, args.y, args.l)
 
-    dir1, dir2 = createDirectories(args.d, args.y, args.l)
-    createCodeTemplateFiles(args.l, dir1 + f"\\{args.d}_01.{args.l}")
-    createCodeTemplateFiles(args.l, dir2 + f"\\{args.d}_02.{args.l}")
