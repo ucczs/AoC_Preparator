@@ -10,6 +10,7 @@ Possible selections:
 The script also generates a **folder structure** based on the selected year and day and a basic **source code file**, so that no manual setup is necessary:
 * The basic source code file reads in the input and prints it out
 * The generated folders and files have the following structure:
+```bash
     root/  
     └── AoC_\[Year\]/  
         └── \[Day\]_\[Language\]  
@@ -20,3 +21,4 @@ The script also generates a **folder structure** based on the selected year and 
                     ├── input.txt  
                     └── 10_02.\[Language\]  
 
+```
