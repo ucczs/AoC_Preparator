@@ -3,13 +3,18 @@
 This scripts makes it possible to download a puzzle of a specific day and year of the Advent of Code challenges.  
 The user needs to set their session cookie in the script so that the puzzles can be accessed.
 
-Possible selections:  
-**Years:** &ensp; 2015 .. year of last christmas  
-**Days:** &ensp; 1 .. 25
+## Script parameter
+* -y select the year (2015 until now)
+* -d select the day (Day 1 until 25)
+* -l select the language you want to use
+* -c (optional) set your session cookie (the session cookie can also be set in [config.py](./config.py)
+* -h help
 
+## Folder structure
 The script also generates a **folder structure** based on the selected year and day and a basic **source code file**, so that no manual setup is necessary:
 * The basic source code file reads in the input and prints it out
 * The generated folders and files have the following structure:
+
 ```bash
     root/  
     └── AoC_[Year]  
