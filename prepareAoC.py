@@ -24,7 +24,7 @@ def downloadPuzzle(day, year, dir):
     respond = s.get(url)
 
     if respond.status_code == 200:
-        open(dir + "\\" + config.inputFileName, "wb").write(respond.content)
+        open(os.path.join(dir, config.inputFileName), "wb").write(respond.content)
         logger.info("File successfully downloaded")
     else:
         logger.warning(f"Error: Download failed. Respond status code: {respond.status_code}")
@@ -75,18 +75,18 @@ def checkAndCopyFile(sourceFile, destinationFile):
 
 def createDirectories(day, year, language, createDirectories):
     dayZeroPadding = f"{day:02d}"
-    path1 = f"{createDirectories}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_01"
-    path2 = f"{createDirectories}\\AoC_{year}\\{dayZeroPadding}_{language}\\{dayZeroPadding}_02"
+    path1 = os.path.join(createDirectories, "AoC_" + str(year), dayZeroPadding + "_" + language, dayZeroPadding + "_01")
+    path2 = os.path.join(createDirectories, "AoC_" + str(year), dayZeroPadding + "_" + language, dayZeroPadding + "_02")
 
     checkAndCreateDir(path1)
     checkAndCreateDir(path2)
 
-    inputFile1 = path1 + f"\\" + config.inputFileName
-    inputFile2 = path2 + f"\\" + config.inputFileName
+    inputFile1 = os.path.join(path1,  config.inputFileName)
+    inputFile2 = os.path.join(path2,  config.inputFileName)
 
-    checkAndCopyFile(createDirectories + f"\\" + config.inputFileName, inputFile1)
-    checkAndCopyFile(createDirectories + f"\\" + config.inputFileName, inputFile2)
-    os.remove(createDirectories + f"\\" + config.inputFileName)
+    checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), inputFile1)
+    checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), inputFile2)
+    os.remove(os.path.join(createDirectories, config.inputFileName))
 
     return (path1, path2)
 
@@ -107,8 +107,8 @@ def prepareDay(day, year, language, creationDirectory):
     dayZeroPadding = f"{day:02d}"
 
     dir1, dir2 = createDirectories(day, year, language, creationDirectory)
-    createCodeTemplateFiles(language, dir1 + f"\\{dayZeroPadding}_01.{language}")
-    createCodeTemplateFiles(language, dir2 + f"\\{dayZeroPadding}_02.{language}")
+    createCodeTemplateFiles(language, os.path.join(dir1, dayZeroPadding + "_01." + language))
+    createCodeTemplateFiles(language, os.path.join(dir2, dayZeroPadding + "_02." + language))
 
 
 if __name__ == "__main__":
