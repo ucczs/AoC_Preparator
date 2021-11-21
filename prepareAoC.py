@@ -93,7 +93,7 @@ def createDirectories(day, year, language, createDirectories):
 def createCodeTemplateFiles(language, sourceCodeFilename):
     if(language in languageTemplates.keys()):
         codeTemplate = languageTemplates[language]
-        codeTemplate = codeTemplate.replace(filenameReplaceTag, ".\\\\" + config.inputFileName.replace("\\", "\\\\"))
+        codeTemplate = codeTemplate.replace(filenameReplaceTag, config.inputFileName)
 
         open(sourceCodeFilename, "w").write(codeTemplate)
         logger.info(f"Source code file successfully written: {sourceCodeFilename}")
