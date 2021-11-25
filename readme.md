@@ -10,6 +10,7 @@ The user needs to set their session cookie in the script so that the puzzles can
 * -l select the programming language you want to use
 * -c (optional) set your session cookie (the session cookie can also be set in [config.py](./config.py))
 * -p (optional) path to the output directory
+* -sd (optional) skip download and create dummy input file and folder structure
 * -h help
 
 ## Folder structure
