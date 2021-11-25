@@ -50,6 +50,7 @@ def getArguments():
     parser.add_argument('-l', '--lang', action='store', type=str, required=True, choices=list(languageTemplates.keys()), help=f'select the language which you use to solve the puzzle. Available selections: {languageTemplates.keys()}')
     parser.add_argument('-c', '--cookie', action='store', type=str, required=False, help='set your personal session cookie for adventofcode.com')
     parser.add_argument('-p', '--path', action='store', type=str, required=False, help='directory where the folders and files should be created (default: current directory)')
+    parser.add_argument('-sd', '--skipDownload', action='store_true', help='skip the download and create folder and dummy input file')
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-d',  '--day',action='store', type=int, help='select the day')
@@ -101,8 +102,12 @@ def createCodeTemplateFiles(language, sourceCodeFilename):
     else:
         logger.error(f"Wrong language selected. Available languages: {languageTemplates.keys()}")
 
-def prepareDay(day, year, language, creationDirectory):
-    downloadPuzzle(day, year, creationDirectory)
+def prepareDay(day, year, language, creationDirectory, skipDownload):
+    if skipDownload:
+        open(os.path.join(creationDirectory, config.inputFileName), "w").write('Test1\nTest2')
+        logger.info("Download skipped, dummy file created.")
+    else:
+        downloadPuzzle(day, year, creationDirectory)
 
     dayZeroPadding = f"{day:02d}"
 
@@ -127,7 +132,7 @@ if __name__ == "__main__":
 
     if(args.all):
         for i in range(1,26):
-            prepareDay(i, args.year, args.lang, creationDirectory)
+            prepareDay(i, args.year, args.lang, creationDirectory, args.skipDownload)
     else:
-        prepareDay(args.day, args.year, args.lang, creationDirectory)
+        prepareDay(args.day, args.year, args.lang, creationDirectory, args.skipDownload)
 
