@@ -69,10 +69,10 @@ def checkAndCreateDir(path):
 def checkAndCopyFile(sourceFile, destinationFile):
     if os.path.exists(destinationFile):
         os.remove(destinationFile)
-        logger.warning(f"{config.inputFileName} file alread existed. Replaced with the latest file.")
+        logger.warning(f"{sourceFile} file alread existed. Replaced with the latest file.")
 
     copyfile(sourceFile, destinationFile)
-    logger.info(f"{config.inputFileName} saved at: {destinationFile}")
+    logger.info(f"{sourceFile} saved at: {destinationFile}")
 
 def createDirectories(day, year, language, createDirectories):
     dayZeroPadding = f"{day:02d}"
@@ -85,8 +85,15 @@ def createDirectories(day, year, language, createDirectories):
     inputFile1 = os.path.join(path1,  config.inputFileName)
     inputFile2 = os.path.join(path2,  config.inputFileName)
 
+    testFile1 = os.path.join(path1,  config.testFileName)
+    testFile2 = os.path.join(path2,  config.testFileName)
+
+
     checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), inputFile1)
     checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), inputFile2)
+    checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), testFile1)
+    checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), testFile2)
+
     os.remove(os.path.join(createDirectories, config.inputFileName))
 
     return (path1, path2)
