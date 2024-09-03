@@ -91,8 +91,11 @@ def createDirectories(day, year, language, createDirectories):
 
     checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), inputFile1)
     checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), inputFile2)
-    checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), testFile1)
-    checkAndCopyFile(os.path.join(createDirectories, config.inputFileName), testFile2)
+
+    with open(testFile1, "w+") as _:
+        pass
+    with open(testFile2, "w+") as _:
+        pass
 
     os.remove(os.path.join(createDirectories, config.inputFileName))
 
