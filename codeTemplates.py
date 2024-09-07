@@ -65,6 +65,12 @@ auto split_string(std::string full_string, char seperator) -> std::vector<std::s
     return splitted_string;
 }
 
+auto stringVec2intVec(std::vector<std::string>* vec_str) -> std::vector<int> {
+    std::vector<int> vec_int;
+    std::transform(vec_str->begin(), vec_str->end(), std::back_inserter(vec_int), [](const std::string& str) { return std::stoi(str); });
+    return vec_int;
+}
+
 int main() {
     // std::ifstream file("input.txt");
     std::ifstream file("test.txt");
