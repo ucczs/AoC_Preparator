@@ -47,7 +47,22 @@ fn main() -> io::Result<()> {
 cppTemplate = """#include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 
+auto split_string(std::string full_string, char seperator) -> std::vector<std::string> {
+    std::stringstream full_string_ss(full_string);
+    std::vector<std::string> splitted_string;
+    std::string split;
+
+    while (std::getline(full_string_ss, split, seperator)) {
+        if (split[0] == ' ') {
+            split = split.substr(1, split.length() - 1);
+        }
+        splitted_string.push_back(split);
+    }
+
+    return splitted_string;
+}
 
 int main(){
     // std::ifstream file("input.txt");
