@@ -46,8 +46,9 @@ fn main() -> io::Result<()> {
 
 cppTemplate = """#include <fstream>
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
+#include <vector>
 
 auto split_string(std::string full_string, char seperator) -> std::vector<std::string> {
     std::stringstream full_string_ss(full_string);
@@ -64,7 +65,7 @@ auto split_string(std::string full_string, char seperator) -> std::vector<std::s
     return splitted_string;
 }
 
-int main(){
+int main() {
     // std::ifstream file("input.txt");
     std::ifstream file("test.txt");
     std::string line;
@@ -73,11 +74,10 @@ int main(){
         std::cout << line << std::endl;
     }
 
-
-
     file.close();
     return 0;
 }
+
 
 """
 
