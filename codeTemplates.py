@@ -44,7 +44,8 @@ fn main() -> io::Result<()> {
 
 """
 
-cppTemplate = """#include <fstream>
+cppTemplate = """#include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
